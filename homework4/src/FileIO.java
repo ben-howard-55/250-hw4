@@ -7,14 +7,15 @@ import java.util.Scanner;
 public class FileIO {
 
     private int _length;
-    private int outTemp;
-    private int inTemp;
-    private ArrayList<LinkedList<Integer>> inDegreeList = new ArrayList<LinkedList<Integer>>();
-    private ArrayList<LinkedList<Integer>> outDegreeList = new ArrayList<LinkedList<Integer>>();
+    private int _outTemp;
+    private int _inTemp;
+    private ArrayList<LinkedList<Integer>> _inDegreeList = new ArrayList<LinkedList<Integer>>();
+    private ArrayList<LinkedList<Integer>> _outDegreeList = new ArrayList<LinkedList<Integer>>();
     private int _inDegree = 0;
     private int _outDegree = 0;
     private double _avgInDegree;
     private double _avgOutDegree;
+    private ArrayList<Degree<Integer, Integer>> _edges = new ArrayList<Degree<Integer, Integer>>();
 
 
     FileIO() throws Exception {
@@ -31,15 +32,16 @@ public class FileIO {
                     i++;
                    
                     for (int j = 0; j < length; j++) {
-                        inDegreeList.add(new LinkedList<Integer>());
-                        outDegreeList.add(new LinkedList<Integer>());
+                        _inDegreeList.add(new LinkedList<Integer>());
+                        _outDegreeList.add(new LinkedList<Integer>());
                     }
 
                 } else {
-                    outTemp = sc.nextInt();
-                    inTemp = sc.nextInt();
-                    outDegreeList.get(outTemp).add(inTemp);
-                    inDegreeList.get(inTemp).add(outTemp);
+                    _outTemp = sc.nextInt();
+                    _inTemp = sc.nextInt();
+                    _outDegreeList.get(_outTemp).add(_inTemp);
+                    _inDegreeList.get(_inTemp).add(_outTemp);
+                    _edges.add(new Degree<Integer, Integer>(_outTemp, _inTemp));
                 }
             }
         } finally {
@@ -48,8 +50,8 @@ public class FileIO {
 
 
         for (int j = 0; j < _length; j++) {
-            _inDegree += inDegreeList.get(j).size();
-            _outDegree += outDegreeList.get(j).size();
+            _inDegree += _inDegreeList.get(j).size();
+            _outDegree += _outDegreeList.get(j).size();
         }
         _avgInDegree = (double)_inDegree / _length;
         _avgOutDegree = (double)_outDegree / _length;
@@ -66,7 +68,7 @@ public class FileIO {
         FileOutputStream fos = new FileOutputStream(output_name);
 
         for (int k = 0; k < _length; k++) {
-            if (inDegreeList.get(k).size() == outDegreeList.get(k).size()) {
+            if (_inDegreeList.get(k).size() == _outDegreeList.get(k).size()) {
                 fos.write(String.valueOf(k).getBytes(), 0, 1);
                 fos.write(' ');
             }
@@ -79,10 +81,14 @@ public class FileIO {
         fos.write(' ');
         fos.write('\n');
 
+        new DFS(_outDegreeList, 0);
 
 
         fos.flush();
         fos.close();
+
+        System.out.println(_inDegreeList);
+        System.out.println(_outDegreeList);
 
 
 
