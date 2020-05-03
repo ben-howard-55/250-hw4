@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Stack;
@@ -12,7 +13,7 @@ public class DFS {
     private int _start;
     private int _end;
     private boolean _cycleFound = false;
-    private String _temp;
+    private String _cyclePath = "";
 
     public DFS(ArrayList<LinkedList<Integer>> graph, int s) {
         _start = s;
@@ -29,18 +30,23 @@ public class DFS {
         
 
         if (_end == _start && _cycleFound) {
-            _temp = _end + " " + _start;
+            _cyclePath = _start + "";
         } else if (_cycleFound) {
-            
-            _temp = _dfs_tree.get(0).outNode + " " + _dfs_tree.get(0).inNode;
-            for (int i = 1; i< _dfs_tree.size(); i++) {
-                _temp = _temp + " " + _dfs_tree.get(i).inNode;
+            int[] cycle = new int[_dfs_tree.size()+1];
+
+            cycle[0] = _dfs_tree.get(0).outNode;
+            for (int i = 1; i< _dfs_tree.size()+1; i++) {
+                cycle[i] = _dfs_tree.get(i-1).inNode;
+            }
+            Arrays.sort(cycle);
+            for (int i = 0; i <_dfs_tree.size()+1; i++) {
+                _cyclePath += cycle[i] + " ";
             }
         }
     }
 
     public String returnPath() {
-        return _temp;
+        return _cyclePath;
     }
 
 

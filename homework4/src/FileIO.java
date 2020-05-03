@@ -2,7 +2,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class FileIO {
 
@@ -17,8 +19,6 @@ public class FileIO {
     private double _avgOutDegree;
     private ArrayList<Degree<Integer, Integer>> _edges = new ArrayList<Degree<Integer, Integer>>();
     private ArrayList<String> _cycles = new ArrayList<String>();
-
-
     FileIO() throws Exception {
         // pass the path to the file as a parameter
         File file = new File("/Users/benjaminhoward/Documents/GitHub/250-hw4/homework4/test2.txt");
@@ -59,12 +59,13 @@ public class FileIO {
 
 
 
-
+        // find all cycles
         for (i = 0; i <_length; i++) {
             _cycles.add(new DFS(_outDegreeList, i).returnPath());
         }
-
-        System.out.println(_cycles);
+        //make all cycles distinct & print
+        List<String> _distinctCycles = _cycles.stream().distinct().collect(Collectors.toList());
+        System.out.println(_distinctCycles);
 
 
 
