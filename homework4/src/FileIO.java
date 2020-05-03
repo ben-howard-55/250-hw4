@@ -16,22 +16,22 @@ public class FileIO {
     private double _avgInDegree;
     private double _avgOutDegree;
     private ArrayList<Degree<Integer, Integer>> _edges = new ArrayList<Degree<Integer, Integer>>();
+    private ArrayList<String> _cycles = new ArrayList<String>();
 
 
     FileIO() throws Exception {
         // pass the path to the file as a parameter
-        File file = new File("/Users/benjaminhoward/Documents/GitHub/250-hw4/homework4/test1.txt");
+        File file = new File("/Users/benjaminhoward/Documents/GitHub/250-hw4/homework4/test2.txt");
         Scanner sc = new Scanner(file);
         int i = 0;
         try {
             while (sc.hasNextLine()) {
                 if (i == 0) {
-                    int length = sc.nextInt();
+                    _length = sc.nextInt();
                     System.out.println(_length);
-                    _length = length;
                     i++;
                    
-                    for (int j = 0; j < length; j++) {
+                    for (int j = 0; j < _length; j++) {
                         _inDegreeList.add(new LinkedList<Integer>());
                         _outDegreeList.add(new LinkedList<Integer>());
                     }
@@ -60,7 +60,11 @@ public class FileIO {
 
 
 
+        for (i = 0; i <_length; i++) {
+            _cycles.add(new DFS(_outDegreeList, i).returnPath());
+        }
 
+        System.out.println(_cycles);
 
 
 
@@ -81,7 +85,7 @@ public class FileIO {
         fos.write(' ');
         fos.write('\n');
 
-        new DFS(_outDegreeList, 0);
+        
 
 
         fos.flush();
