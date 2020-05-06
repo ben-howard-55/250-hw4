@@ -86,8 +86,8 @@ public class FileIO {
          if (_distinctCycles.size() == 0) {
             fos.write(("Order:").getBytes(), 0, 6);
             fos.write('\n');
-            Topological topo = new Topological(_inDegreeList, _outDegreeList, _length);
-            fos.write(topo.returnTOrdering().getBytes(),0,_length*2);
+            // Topological topo = new Topological(_inDegreeList, _outDegreeList, _length);
+            // fos.write(topo.returnTOrdering().getBytes(),0,_length*2);
             fos.write('\n');
          } else {
              fos.write(("Cycle(s):").getBytes(), 0, 9);

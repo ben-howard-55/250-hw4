@@ -1,11 +1,8 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Stack;
-import java.util.stream.Collectors;
 
 public class DFS {
 
@@ -40,10 +37,6 @@ public class DFS {
         return cycleList;
     }
 
- 
-
-    
-    
     private void DFS_IMPL(int s) {
         _dfs_stack.push(s);
         _dfs_explored.set(s, true);
