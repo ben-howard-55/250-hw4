@@ -18,10 +18,11 @@ public class FileIO {
     private double _avgInDegree;
     private double _avgOutDegree;
     private ArrayList<Degree<Integer, Integer>> _edges = new ArrayList<Degree<Integer, Integer>>();
-    private ArrayList<String> _cycles = new ArrayList<String>();
+    private ArrayList<ArrayList<Integer>> _cycles = new ArrayList<ArrayList<Integer>>();
+    
     FileIO() throws Exception {
         // pass the path to the file as a parameter
-        File file = new File("/Users/benjaminhoward/Documents/GitHub/250-hw4/homework4/test2.txt");
+        File file = new File("/Users/benjaminhoward/Documents/GitHub/250-hw4/homework4/test1.txt");
         Scanner sc = new Scanner(file);
         int i = 0;
         try {
@@ -56,20 +57,7 @@ public class FileIO {
         _avgInDegree = (double)_inDegree / _length;
         _avgOutDegree = (double)_outDegree / _length;
 
-
-
-
-        // find all cycles
-        for (i = 0; i <_length; i++) {
-            _cycles.add(new DFS(_outDegreeList, i).returnPath());
-        }
-        //make all cycles distinct & print
-        List<String> _distinctCycles = _cycles.stream().distinct().collect(Collectors.toList());
-        System.out.println(_distinctCycles);
-
-
-
-        String output_name = "outputAA.txt";
+        String output_name = "outputAAA.txt";
         FileOutputStream fos = new FileOutputStream(output_name);
 
         for (int k = 0; k < _length; k++) {
@@ -85,6 +73,20 @@ public class FileIO {
         fos.write(String.format("%.5f", _avgOutDegree).getBytes(), 0, 7);
         fos.write(' ');
         fos.write('\n');
+
+        // find all cycles
+        for (i = 0; i <_length; i++) {
+            _cycles.addAll( new DFS(_outDegreeList, i).returnCycles());
+         }
+ 
+         //make all cycles distinct & print
+         ArrayList<ArrayList<Integer>> _distinctCycles = (ArrayList<ArrayList<Integer>>) _cycles.stream().distinct().collect(Collectors.toList());
+         System.out.println(_distinctCycles);
+         System.out.println("number of distinct cycles: " + _distinctCycles.size());
+
+         if (_distinctCycles.size() == 0) {
+             new Topological(_inDegreeList, _outDegreeList, _length);
+         }
 
         
 
