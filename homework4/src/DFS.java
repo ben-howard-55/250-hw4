@@ -1,8 +1,11 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 public class DFS {
 
@@ -11,9 +14,8 @@ public class DFS {
     private ArrayList<LinkedList<Integer>> _graph;
     private ArrayList<Degree<Integer, Integer>> _dfs_tree;
     private int _start;
-    private int _end;
-    private boolean _cycleFound = false;
-    private String _cyclePath = "";
+    private ArrayList<ArrayList<Integer>> cycleList = new ArrayList<ArrayList<Integer>>();
+
 
     public DFS(ArrayList<LinkedList<Integer>> graph, int s) {
         _start = s;
@@ -27,29 +29,21 @@ public class DFS {
         }
 
         DFS_IMPL(s);
-        
-
-        if (_end == _start && _cycleFound) {
-            _cyclePath = _start + "";
-        } else if (_cycleFound) {
-            int[] cycle = new int[_dfs_tree.size()+1];
-
-            cycle[0] = _dfs_tree.get(0).outNode;
-            for (int i = 1; i< _dfs_tree.size()+1; i++) {
-                cycle[i] = _dfs_tree.get(i-1).inNode;
-            }
-            Arrays.sort(cycle);
-            for (int i = 0; i <_dfs_tree.size()+1; i++) {
-                _cyclePath += cycle[i] + " ";
-            }
+       // cycleList.stream().distinct().collect(Collectors.toList());
+        for (int i = 0; i < cycleList.size(); i++) {
+            Collections.sort(cycleList.get(i));
         }
+        System.out.println(cycleList + " :" + s);
     }
 
-    public String returnPath() {
-        return _cyclePath;
+    public ArrayList<ArrayList<Integer>> returnCycles() {
+        return cycleList;
     }
 
+ 
 
+    
+    
     private void DFS_IMPL(int s) {
         _dfs_stack.push(s);
         _dfs_explored.set(s, true);
@@ -59,15 +53,14 @@ public class DFS {
 
             Iterator<Integer> vList = _graph.get(vertex).iterator();
             
-            while(vList.hasNext() && !_cycleFound) {
+            while(vList.hasNext()) {
                 int nextVertex = vList.next();
 
                 if(_dfs_explored.get(nextVertex) == false ) {
                     _dfs_tree.add(new Degree<Integer, Integer> (vertex, nextVertex));
                     DFS_IMPL(nextVertex);
                 } else if (_start == nextVertex) {
-                    _cycleFound = true;
-                    _end = vertex;
+                   cycleList.add( new ArrayList<>(_dfs_stack));
                 }
             }
             _dfs_stack.pop();
