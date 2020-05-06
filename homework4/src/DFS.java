@@ -1,14 +1,8 @@
 import java.util.ArrayList;
-<<<<<<< Updated upstream
-import java.util.Arrays;
-=======
->>>>>>> Stashed changes
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Stack;
-import java.util.stream.Collectors;
 
 public class DFS {
 
@@ -30,36 +24,19 @@ public class DFS {
         }
 
         DFS_IMPL(s);
-<<<<<<< Updated upstream
-       // cycleList.stream().distinct().collect(Collectors.toList());
-        for (int i = 0; i < cycleList.size(); i++) {
-            Collections.sort(cycleList.get(i));
-        }
-        System.out.println(cycleList + " :" + s);
-    }
-
-    public ArrayList<ArrayList<Integer>> returnCycles() {
-        return cycleList;
-=======
 
         for (int i = 0; i < cycleList.size(); i++) {
             Collections.sort(cycleList.get(i));
         }
 
->>>>>>> Stashed changes
     }
 
  
 
-<<<<<<< Updated upstream
-    
-    
-=======
     public ArrayList<ArrayList<Integer>> returnCycles() {
         return cycleList;
     }
 
->>>>>>> Stashed changes
     private void DFS_IMPL(int s) {
         _dfs_stack.push(s);
         _dfs_explored.set(s, true);
