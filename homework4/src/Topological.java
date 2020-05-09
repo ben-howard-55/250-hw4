@@ -7,7 +7,6 @@ public class Topological {
     LinkedList<Integer> Candidate;
     ArrayList<Integer> _inDegreeNumber;
     ArrayList<Integer> _s;
-    String temp = "";
     private int _length;
 
     
@@ -19,7 +18,7 @@ public class Topological {
         _s = new ArrayList<Integer>();
 
         // make active list
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < _length; i++) {
             _Active.add(i);
             _inDegreeNumber.add(inDegreeList.get(i).size());
             if (_inDegreeNumber.get(i) == 0) {
@@ -38,13 +37,14 @@ public class Topological {
                     }
                 }
         }
-        System.out.println(_s + "topological");
     }
 
     public String returnTOrdering() {
+        String temp = "";
         for (int i = 0; i < _length; i++) {
              temp = temp + _s.get(i).toString() + " ";
         }
+        System.out.println(temp);
         return temp;
     }
 }
